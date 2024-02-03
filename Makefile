@@ -1,8 +1,9 @@
-REPO		?= riak_cs
-HEAD_REVISION   ?= $(shell git describe --tags --exact-match HEAD 2>/dev/null)
-PKG_REVISION    ?= $(shell git describe --tags 2>/dev/null)
-PKG_VERSION     ?= $(shell git describe --tags | tr - .)
-PKG_ID           = riak_cs-$(PKG_VERSION)
+REPO		:= riak_cs
+HEAD_REVISION   := $(shell git describe --tags --exact-match HEAD 2>/dev/null)
+PKG_REVISION    := $(shell git describe --tags 2>/dev/null)
+PKG_VERSION     := $(shell git describe --tags | tr - .)
+REPO_TAG 	:= $(PKG_REVISION)
+PKG_ID          := "$(REPO_TAG)-OTP$(OTP_VER)"
 PKG_BUILD        = 1
 BASE_DIR         = $(shell pwd)
 ERLANG_BIN       = $(shell dirname $(shell which erl 2>/dev/null) 2>/dev/null)
@@ -130,14 +131,6 @@ pulse: all
 ## Version and naming variables for distribution and packaging
 ##
 
-# Tag from git with style <tagname>-<commits_since_tag>-<current_commit_hash>
-# Ex: When on a tag:            riak-1.0.3   (no commits since tag)
-#     For most normal Commits:  riak-1.1.0pre1-27-g1170096
-#                                 Last tag:          riak-1.1.0pre1
-#                                 Commits since tag: 27
-#                                 Hash of commit:    g1170096
-REPO_TAG 	:= $(shell git describe --tags)
-
 # Split off repo name
 # Changes to 1.0.3 or 1.1.0pre1-27-g1170096 from example above
 REVISION = $(shell echo $(REPO_TAG) | sed -e 's/^$(REPO)-//')
@@ -145,15 +138,6 @@ REVISION = $(shell echo $(REPO_TAG) | sed -e 's/^$(REPO)-//')
 # Primary version identifier, strip off commmit information
 # Changes to 1.0.3 or 1.1.0pre1 from example above
 MAJOR_VERSION	?= $(shell echo $(REVISION) | sed -e 's/\([0-9.]*\)-.*/\1/')
-
-# Name resulting directory & tar file based on current status of the git tag
-# If it is a tagged release (PKG_VERSION == MAJOR_VERSION), use the toplevel
-#   tag as the package name, otherwise generate a unique hash of all the
-#   dependencies revisions to make the package name unique.
-#   This enables the toplevel repository package to change names
-#   when underlying dependencies change.
-NAME_HASH = $(shell git hash-object distdir/$(CLONEDIR)/$(MANIFEST_FILE) 2>/dev/null | cut -c 1-8)
-PKG_ID := "$(REPO_TAG)-OTP$(OTP_VER)"
 
 ##
 ## Packaging targets
