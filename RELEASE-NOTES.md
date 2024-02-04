@@ -1,6 +1,29 @@
+# Riak CS 3.2.5 Release Notes
+
+Released March 15, 2024.
+
+## General
+
+Bugfix/minor feature release.
+
+## New features
+
+None.
+
+## Bug fixes
+
+* 
+
+## Changes
+
+* Parameter `gc_paginated_indexes` was removed.
+* Dependencies have been updated to their latest versions; rebar3
+  updated to 3.22.1.
+
+
 # Riak CS 3.2.4 Release Notes
 
-Released January 25, 2023.
+Released January 25, 2024.
 
 ## General
 

@@ -39,7 +39,6 @@
          gc_batch_size/0,
          get_env/3,
          md5_chunk_size/0,
-         gc_paginated_indexes/0,
          policy_module/0,
          proxy_get_active/0,
          response_module/0,
@@ -132,9 +131,6 @@ warnings() ->
     ?MAYBE_WARN(anonymous_user_creation(),
                 "`anonymous_user_creation` is set as true. Set this as false"
                 " when this CS nodes is populated as public service."),
-    ?MAYBE_WARN(not gc_paginated_indexes(),
-                "`gc_paginated_indexes` is set as false. "
-                " This will be removed at next major version."),
     ok.
 
 %% ===================================================================
@@ -208,13 +204,6 @@ gc_batch_size() ->
 -spec policy_module() -> atom().
 policy_module() ->
     get_env(riak_cs, policy_module, ?DEFAULT_POLICY_MODULE).
-
-%% @doc paginated 2i is supported after Riak 1.4
-%% When using Riak CS `>= 1.5' with Riak `=< 1.3' (it rarely happens)
-%% this should be set as false at app.config.
--spec gc_paginated_indexes() -> atom().
-gc_paginated_indexes() ->
-    get_env(riak_cs, gc_paginated_indexes, true).
 
 -spec response_module() -> atom().
 response_module() ->
