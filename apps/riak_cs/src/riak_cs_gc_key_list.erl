@@ -97,13 +97,12 @@ next_pool(#gc_key_list_state{
 %% @doc Fetch the list of keys for file manifests that are eligible
 %% for delete.
 fetch_eligible_manifest_keys(RcPid, StartKey, EndKey, BatchSize, Continuation) ->
-    UsePaginatedIndexes = riak_cs_config:gc_paginated_indexes(),
     QueryResults = gc_index_query(RcPid,
                                   StartKey,
                                   EndKey,
                                   BatchSize,
                                   Continuation,
-                                  UsePaginatedIndexes),
+                                  _UsePaginatedIndexes = true),
     {eligible_manifest_keys(QueryResults, UsePaginatedIndexes, BatchSize),
      continuation(QueryResults)}.
 
