@@ -207,11 +207,6 @@ active_manifest_from_response({ok, Manifests}) ->
     handle_active_manifests(rcs_common_manifest_utils:active_manifest(Manifests));
 active_manifest_from_response({error, notfound}=NotFound) ->
     NotFound.
-
-%% @private
--spec handle_active_manifests({ok, lfs_manifest()} |
-                              {error, no_active_manifest}) ->
-                                     {ok, lfs_manifest()} | {error, notfound}.
 handle_active_manifests({ok, _Active}=ActiveReply) ->
     ActiveReply;
 handle_active_manifests({error, no_active_manifest}) ->
