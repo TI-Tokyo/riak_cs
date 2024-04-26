@@ -136,7 +136,7 @@ eval_ip_address_test_trust_x_forwarded_for_false_test() ->
     %% If trust_x_forwarded_for = true, it would just use the peer address and the call would
     %% succeed
     {'EXIT', {{badrecord, ThisorThatRecord}, _}} =
-        catch riak_cs_aws_policy:eval_ip_address(#wm_reqdata{peer="23.23.23.23"}, Conds),
+        (catch riak_cs_aws_policy:eval_ip_address(#wm_reqdata{peer="23.23.23.23"}, Conds)),
     ?assert(ThisorThatRecord == wm_reqstate orelse
             ThisorThatRecord == defined_on_call),
     %% Reset env for next test

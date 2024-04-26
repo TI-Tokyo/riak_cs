@@ -217,7 +217,7 @@ get_user(Arn, Pbc) ->
 
 riak_connection() ->
     {Host, Port} = riak_cs_config:riak_host_port(),
-    Timeout = application:get_env(riak_cs, riakc_connect_timeout, 10_000),
+    Timeout = application:get_env(riak_cs, riakc_connect_timeout, 10000),
     StartOptions = [{connect_timeout, Timeout},
                     {auto_reconnect, true}],
     riakc_pb_socket:start_link(Host, Port, StartOptions).

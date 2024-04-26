@@ -359,10 +359,11 @@ resource_matches(Bucket, KeyBin, #statement{resource = Resources})
     lists:any(fun(#arn_v1{path = Path}) ->
                       case binary:last(Path) of
                           $* ->
+                              PfxSz = size(Path)-1,
                               if size(Path) < size(Path0) ->
                                       %% only prefix matching
-                                      <<M1:(size(Path)-1)/binary, _/binary>> = Path,
-                                      <<M2:(size(Path)-1)/binary, _/binary>> = Path0,
+                                      <<M1:PfxSz/binary, _/binary>> = Path,
+                                      <<M2:PfxSz/binary, _/binary>> = Path0,
                                       M1 =:= M2;
                                  el/=se ->
                                       false

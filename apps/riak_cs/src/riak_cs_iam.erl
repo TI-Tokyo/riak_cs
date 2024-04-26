@@ -229,7 +229,7 @@ get_policy(Arn, Pbc) ->
             ER
     end.
 
--spec find_policy(maps:map() | Name::binary(), pid()) -> {ok, policy()} | {error, notfound | term()}.
+-spec find_policy(maps:map() | binary(), pid()) -> {ok, policy()} | {error, notfound | term()}.
 find_policy(Name, Pbc) when is_binary(Name) ->
     find_policy(#{name => Name}, Pbc);
 find_policy(#{name := Name}, Pbc) ->
@@ -491,7 +491,7 @@ get_role(Arn, Pbc) ->
             Error
     end.
 
--spec find_role(maps:map() | Name::binary(), pid()) -> {ok, role()} | {error, notfound | term()}.
+-spec find_role(maps:map() | binary(), pid()) -> {ok, role()} | {error, notfound | term()}.
 find_role(Name, Pbc) when is_binary(Name) ->
     find_role(#{name => Name}, Pbc);
 find_role(#{name := A}, Pbc) ->
@@ -601,7 +601,7 @@ list_saml_providers(RcPid, #list_saml_providers_request{}) ->
             ER
     end.
 
--spec find_saml_provider(maps:map() | Arn::binary(), pid()) ->
+-spec find_saml_provider(maps:map() | binary(), pid()) ->
           {ok, saml_provider()} | {error, notfound | term()}.
 find_saml_provider(Name, Pbc) when is_binary(Name) ->
     find_saml_provider(#{name => Name}, Pbc);

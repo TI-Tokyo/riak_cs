@@ -230,7 +230,7 @@ upgrade_part(#part_manifest_v2{bucket = Bucket,
 
 
 maybe_now_to_system_time({M1, M2, M3}) ->
-    M1 * 1000_000 + M2 + M3 div 1000;
+    M1 * 1000000 + M2 + M3 div 1000;
 maybe_now_to_system_time(M) ->
     M.
 

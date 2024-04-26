@@ -424,13 +424,13 @@ upgrade_acl_record(#acl_v2{owner = Owner,
                            creation_time = {T1, T2, T3}}) ->
     #acl_v3{owner = upgrade_owner(Owner),
             grants = [upgrade_grant(G) || G <- Grants],
-            creation_time = T1 * 1000_000 + T2 + T3 div 1000};
+            creation_time = T1 * 1000000 + T2 + T3 div 1000};
 upgrade_acl_record(#acl_v1{owner = Owner,
                            grants = Grants,
                            creation_time = {T1, T2, T3}}) ->
     #acl_v3{owner = upgrade_owner(Owner),
             grants = [upgrade_grant(G) || G <- Grants],
-            creation_time = T1 * 1000_000 + T2 + T3 div 1000}.
+            creation_time = T1 * 1000000 + T2 + T3 div 1000}.
 
 upgrade_owner({DisplayName, CanonicalId, KeyId}) ->
     #{display_name => list_to_binary(DisplayName),
