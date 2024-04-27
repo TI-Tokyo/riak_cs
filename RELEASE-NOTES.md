@@ -1,24 +1,17 @@
-# Riak CS 3.2.5 Release Notes
+# Riak CS 3.2.4.1 Release Notes
 
-Released March 15, 2024.
+Released April 30, 2024.
 
 ## General
 
-Bugfix/minor feature release.
-
-## New features
-
-None.
-
-## Bug fixes
-
-* 
+This release extends otp compatibility to version 22.
 
 ## Changes
 
 * Parameter `gc_paginated_indexes` was removed.
-* Dependencies have been updated to their latest versions; rebar3
-  updated to 3.22.1.
+* Dependencies have been updated to their latest versions, except for
+  exometer_core, which was downgraded from 1.6.2 to 1.6.1 on account
+  of eunit failures with .2 on otp-22. Rebar3 was updated to 3.23.0.
 
 
 # Riak CS 3.2.4 Release Notes
