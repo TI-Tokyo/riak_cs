@@ -287,14 +287,6 @@
   {datatype, {duration, s}}
 ]}.
 
-%% @doc Set this to false if you're running
-%% Riak nodes prior to version 1.4.0.
-{mapping, "gc.paginated_indexes", "riak_cs.gc_paginated_indexes", [
-  {default, on},
-  {datatype, flag},
-  hidden
-]}.
-
 {mapping, "gc.max_workers", "riak_cs.gc_max_workers", [
   {default, 2},
   {datatype, integer},
