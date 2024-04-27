@@ -103,7 +103,7 @@ fetch_eligible_manifest_keys(RcPid, StartKey, EndKey, BatchSize, Continuation) -
                                   BatchSize,
                                   Continuation,
                                   _UsePaginatedIndexes = true),
-    {eligible_manifest_keys(QueryResults, UsePaginatedIndexes, BatchSize),
+    {eligible_manifest_keys(QueryResults, _UsePaginatedIndexes, BatchSize),
      continuation(QueryResults)}.
 
 eligible_manifest_keys({{ok, ?INDEX_RESULTS{keys=Keys}}, _},
