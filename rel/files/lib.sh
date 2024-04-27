@@ -1,5 +1,13 @@
+if [ "$OTP_VER" > "22" ]; then
+    opening_bracket="[["
+    closing_bracket="]]"
+else
+    opening_bracket="["
+    closing_bracket="]"
+fi
+
 fmt() {
-    printf "[["
+    printf "$opening_bracket"
     local n=$#
     if [ $n -ne 0 ]; then
         printf "\"$1\""
@@ -11,7 +19,7 @@ fmt() {
         shift
         n=$((n-1))
     done
-    printf "]]\n"
+    printf "$closing_bracket\n"
 }
 
 rpc() {
