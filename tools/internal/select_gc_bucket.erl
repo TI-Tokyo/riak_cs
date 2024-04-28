@@ -55,7 +55,7 @@ pgv(Key,Proplist) ->
 maybe_date("today") ->
     list_to_binary(integer_to_list(os:system_time(millisecond)));
 maybe_date("yesterday") ->
-    list_to_binary(integer_to_list(os:system_time(millisecond) - 86400_000));
+    list_to_binary(integer_to_list(os:system_time(millisecond) - 86400000));
 maybe_date([Y0,Y1,Y2,Y3,M0,M1,D0,D1]) ->
     DateTime = {{list_to_integer([Y0,Y1,Y2,Y3]),
                  list_to_integer([M0,M1]),
