@@ -146,7 +146,8 @@ update_user_already_locked(U = ?IAM_USER{key_id = KeyId}) ->
 
 -spec list_attached_user_policies(binary(), binary(), pid()) ->
           {ok, [{flat_arn(), PolicyName::binary()}]} | {error, term()}.
-list_attached_user_policies(UserName, PathPrefix, Pbc) ->
+list_attached_user_policies(UserName, PathPrefix_, Pbc) ->
+    PathPrefix = sanitize_path_prefix(PathPrefix_),
     case find_user(#{name => UserName}, Pbc) of
         {ok, {?IAM_USER{attached_policies = AA}, _}} ->
             AANN = [begin
@@ -534,7 +535,8 @@ list_roles(RcPid, #list_roles_request{path_prefix = PathPrefix,
 
 -spec list_attached_role_policies(binary(), binary(), pid()) ->
           {ok, [{flat_arn(), PolicyName::binary()}]} | {error, term()}.
-list_attached_role_policies(RoleName, PathPrefix, Pbc) ->
+list_attached_role_policies(RoleName, PathPrefix_, Pbc) ->
+    PathPrefix = sanitize_path_prefix(PathPrefix_),
     case find_role(#{name => RoleName}, Pbc) of
         {ok, ?IAM_ROLE{attached_policies = AA}} ->
             AANN = [begin
@@ -797,3 +799,7 @@ extract_objects([], Q) ->
     Q;
 extract_objects([{_N, RR}|Rest], Q) ->
     extract_objects(Rest, Q ++ RR).
+
+
+sanitize_path_prefix(<<>>) -> <<"/">>;
+sanitize_path_prefix(A) -> A.
