@@ -3,11 +3,11 @@ HEAD_REVISION   := $(shell git describe --tags --exact-match HEAD 2>/dev/null)
 PKG_REVISION    := $(shell git describe --tags 2>/dev/null)
 PKG_VERSION     := $(shell git describe --tags | tr - .)
 REPO_TAG 	:= $(PKG_REVISION)
+OTP_VER          = $(shell erl -eval 'erlang:display(erlang:system_info(otp_release)), halt().' -noshell)
 PKG_ID          := "$(REPO_TAG)-OTP$(OTP_VER)"
 PKG_BUILD        = 1
 BASE_DIR         = $(shell pwd)
 ERLANG_BIN       = $(shell dirname $(shell which erl 2>/dev/null) 2>/dev/null)
-OTP_VER          = $(shell erl -eval 'erlang:display(erlang:system_info(otp_release)), halt().' -noshell)
 REBAR           ?= $(BASE_DIR)/rebar3
 PULSE_TESTS      = riak_cs_get_fsm_pulse
 
