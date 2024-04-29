@@ -100,6 +100,6 @@ sed -i -e \
      $d/advanced.config
 
 echo "* Pushing riak.conf and advanced.config"
-rsync $d/* $riak_host$RIAK_CONFIG_DIR
+rsync $d/* $riak_dest$RIAK_CONFIG_DIR
 
 rm -rf $d
