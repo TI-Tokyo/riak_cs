@@ -1,4 +1,4 @@
-if [[ "$OTP_VER" < "23" ]]; then
+if [ "$OTP_VER" \< "23" ]; then
     opening_bracket="[["
     closing_bracket="]]"
 else
