@@ -1,17 +1,33 @@
-# Riak CS 3.2.4.1 Release Notes
+# Riak CS 3.2.5 Release Notes
 
 Released April 30, 2024.
 
 ## General
 
-This release extends otp compatibility to version 22.
+This release extends OTP compatibility to version 22.
+
+## Bug fixes
+
+* `ListAttachedRolePolicies` and `ListAttachedUserPolicies` fixed for
+  the case when `PathPrefix` parameter is empty.
 
 ## Changes
 
-* Parameter `gc_paginated_indexes` was removed.
+### User-visible changes
+
+* Configuration parameter `gc_paginated_indexes`, long slated for
+  removal, was removed.
+* Convenence script `misc/prepare-riak-for-cs` now always copies
+  CS-specific beams to where Riak can find them (previously, when both
+  Riak and Riak CS are on the same host, this was achieved via adding
+  `add_paths` parameter to `riak_kv` app in advanced.config, which
+  became an issue on OTP-22 for tools/internal/offline_delete.erl).
+
+### Other changes
+
 * Dependencies have been updated to their latest versions, except for
-  exometer_core, which was downgraded from 1.6.2 to 1.6.1 on account
-  of eunit failures with .2 on otp-22. Rebar3 was updated to 3.23.0.
+  exometer\_core, which was downgraded from 1.6.2 to 1.6.1 on account
+  of eunit failures with 1.6.2 on otp-22. Rebar3 was updated to 3.23.0.
 
 
 # Riak CS 3.2.4 Release Notes
