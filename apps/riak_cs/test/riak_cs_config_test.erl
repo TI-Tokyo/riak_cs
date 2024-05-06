@@ -50,7 +50,6 @@ default_config_test() ->
     cuttlefish_unit:assert_config(Config, "riak_cs.max_scheduled_delete_manifests", 50),
     cuttlefish_unit:assert_config(Config, "riak_cs.gc_interval", 900),
     cuttlefish_unit:assert_config(Config, "riak_cs.gc_retry_interval", 21600),
-    cuttlefish_unit:assert_config(Config, "riak_cs.gc_paginated_indexes", true),
     cuttlefish_unit:assert_config(Config, "riak_cs.gc_max_workers", 2),
     cuttlefish_unit:assert_config(Config, "riak_cs.gc_batch_size", 1000),
     cuttlefish_unit:assert_config(Config, "riak_cs.active_delete_threshold", 0),

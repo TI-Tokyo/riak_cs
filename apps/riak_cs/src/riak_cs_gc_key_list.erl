@@ -101,39 +101,19 @@ fetch_eligible_manifest_keys(RcPid, StartKey, EndKey, BatchSize, Continuation) -
                                   StartKey,
                                   EndKey,
                                   BatchSize,
-                                  Continuation,
-                                  _UsePaginatedIndexes = true),
-    {eligible_manifest_keys(QueryResults, _UsePaginatedIndexes, BatchSize),
+                                  Continuation),
+    {eligible_manifest_keys(QueryResults, BatchSize),
      continuation(QueryResults)}.
 
-eligible_manifest_keys({{ok, ?INDEX_RESULTS{keys=Keys}}, _},
-                       true, _) ->
+eligible_manifest_keys({{ok, ?INDEX_RESULTS{keys=Keys}}, _}, _) ->
     case Keys of
         [] -> [];
         _  -> [Keys]
     end;
-eligible_manifest_keys({{ok, ?INDEX_RESULTS{keys=Keys}}, _},
-                       false, BatchSize) ->
-    split_eligible_manifest_keys(BatchSize, Keys, []);
-eligible_manifest_keys({{error, Reason}, {StartKey, EndKey}}, _, _) ->
+eligible_manifest_keys({{error, Reason}, {StartKey, EndKey}}, _) ->
     logger:warning("Error occurred trying to query from time ~p to ~p"
                    "in gc key index. Reason: ~p", [StartKey, EndKey, Reason]),
     [].
-
-%% @doc Break a list of gc-eligible keys from the GC bucket into smaller sets
-%% to be processed by different GC workers.
-split_eligible_manifest_keys(_BatchSize, [], Acc) ->
-    lists:reverse(Acc);
-split_eligible_manifest_keys(BatchSize, Keys, Acc) ->
-    {Batch, Rest} = split_at_most_n(BatchSize, Keys, []),
-    split_eligible_manifest_keys(BatchSize, Rest, [Batch | Acc]).
-
-split_at_most_n(_, [], Acc) ->
-    {lists:reverse(Acc), []};
-split_at_most_n(0, L, Acc) ->
-    {lists:reverse(Acc), L};
-split_at_most_n(N, [H|T], Acc) ->
-    split_at_most_n(N-1, T, [H|Acc]).
 
 continuation({{ok, ?INDEX_RESULTS{continuation=Continuation}},
               _EndTime}) ->
@@ -141,14 +121,9 @@ continuation({{ok, ?INDEX_RESULTS{continuation=Continuation}},
 continuation({{error, _}, _EndTime}) ->
     undefined.
 
-gc_index_query(RcPid, StartKey, EndKey, BatchSize, Continuation, UsePaginatedIndexes) ->
-    Options = case UsePaginatedIndexes of
-                  true ->
-                      [{max_results, BatchSize},
-                       {continuation, Continuation}];
-                  false ->
-                      []
-              end,
+gc_index_query(RcPid, StartKey, EndKey, BatchSize, Continuation) ->
+    Options = [{max_results, BatchSize},
+               {continuation, Continuation}],
     {ok, ManifestPbc} = riak_cs_riak_client:manifest_pbc(RcPid),
 
     Timeout = riak_cs_config:get_index_range_gckeys_timeout(),
@@ -182,7 +157,7 @@ find_oldest_entries(BagId) ->
         {QueryResult, _} = gc_index_query(RcPid,
                                           int2bin(Start), int2bin(End),
                                           riak_cs_config:gc_batch_size(),
-                                          undefined, true),
+                                          undefined),
         case QueryResult of
             {ok, ?INDEX_RESULTS{keys=Keys}} ->
                 List = correlate([ gc_key_to_datetime(Key) || Key <- Keys]),
@@ -226,14 +201,5 @@ correlate_test() ->
     ?assertEqual([{a, [10]},
                   {b, []},
                   {c, [23, 434, 435]}], non_neg_only(correlate(Data))).
-
-split_eligible_manifest_keys_test() ->
-    ?assertEqual([], split_eligible_manifest_keys(3, [], [])),
-    ?assertEqual([[1]], split_eligible_manifest_keys(3, [1], [])),
-    ?assertEqual([[1,2,3]], split_eligible_manifest_keys(3, lists:seq(1,3), [])),
-    ?assertEqual([[1,2,3],[4]], split_eligible_manifest_keys(3, lists:seq(1,4), [])),
-    ?assertEqual([[1,2,3],[4,5,6]], split_eligible_manifest_keys(3, lists:seq(1,6), [])),
-    ?assertEqual([[1,2,3],[4,5,6],[7,8,9],[10]],
-                 split_eligible_manifest_keys(3, lists:seq(1,10), [])).
 
 -endif.
