@@ -4,7 +4,7 @@
 {application, riak_cs_multibag,
  [
   {description, "riak_cs_multibag"},
-  {vsn, git},
+  {vsn, "3.2.5"},
   {modules, []},
   {registered, []},
   {applications,
