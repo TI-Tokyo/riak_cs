@@ -1,10 +1,10 @@
 # Riak CS 3.2.5 Release Notes
 
-Released April 30, 2024.
+Released May 7, 2024.
 
 ## General
 
-This release extends OTP compatibility to version 22.
+This release extends OTP compatibility to versions 22 and 26.
 
 ## Bug fixes
 
