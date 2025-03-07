@@ -1,3 +1,25 @@
+# Riak CS 3.2.6 Release Notes
+
+Released March xx, 2025.
+
+## Bug fixes
+
+* A condition where put\_fsm, while relaying chunks to the block
+  servers when writing a sufficiently large file, continues to accept
+  chunks faster than it disposes of, may result in out-of-memory
+  condition.  This potential condition is fixed by limiting the amount
+  of data a put\_fsm can hold before allowing the process (webmachine)
+  to do another augment\_data. The relevant configuration item is
+  `put_fsm_augment_data_cache_size`, which can be changed in
+  advanced.config. The default value is 104857600 (100M).
+
+## Changes
+
+### Other changes
+
+* esaml was updated to 4.6.0. Rebar3 was updated to 3.24.0.
+
+
 # Riak CS 3.2.5 Release Notes
 
 Released May 7, 2024.

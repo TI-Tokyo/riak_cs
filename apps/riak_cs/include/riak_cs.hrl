@@ -1,7 +1,7 @@
 %% ---------------------------------------------------------------------
 %%
 %% Copyright (c) 2007-2013 Basho Technologies, Inc.  All Rights Reserved,
-%%               2021-2024 TI Tokyo    All Rights Reserved.
+%%               2021-2025 TI Tokyo    All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -26,7 +26,7 @@
 -include("riak_cs_web.hrl").
 
 -define(RCS_VERSION, 030205).
--define(RCS_VERSION_STRING, "3.2.5").
+-define(RCS_VERSION_STRING, "3.2.6").
 
 -define(DEFAULT_ADMIN_NAME, <<"admin">>).
 -define(DEFAULT_ADMIN_KEY, <<"admin-key">>).
