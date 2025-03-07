@@ -1,7 +1,7 @@
 %% ---------------------------------------------------------------------
 %%
 %% Copyright (c) 2007-2013 Basho Technologies, Inc.  All Rights Reserved.
-%%               2021-2023 TI Tokyo    All Rights Reserved.
+%%               2021-2025 TI Tokyo    All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -156,14 +156,14 @@ delete_bucket_policy(Bucket, RequesterId) ->
                              {delete_policy, Bucket, RequesterId},
                              infinity)).
 
--spec create_role(maps:map()) -> {ok, string()} | {error, term()}.
+-spec create_role(map()) -> {ok, string()} | {error, term()}.
 create_role(A) ->
     ?MEASURE([role, create],
              gen_server:call(?MODULE,
                              {create_role, A},
                              infinity)).
 
--spec update_role(maps:map()) -> ok | {error, term()}.
+-spec update_role(map()) -> ok | {error, term()}.
 update_role(A) ->
     ?MEASURE([role, update],
              gen_server:call(?MODULE,
@@ -177,14 +177,14 @@ delete_role(A) ->
                              {delete_role, A},
                              infinity)).
 
--spec create_policy(maps:map()) -> {ok, string()} | {error, term()}.
+-spec create_policy(map()) -> {ok, string()} | {error, term()}.
 create_policy(A) ->
     ?MEASURE([policy, create],
              gen_server:call(?MODULE,
                              {create_policy, A},
                              infinity)).
 
--spec update_policy(maps:map()) -> ok | {error, term()}.
+-spec update_policy(map()) -> ok | {error, term()}.
 update_policy(A) ->
     ?MEASURE([policy, update],
              gen_server:call(?MODULE,
@@ -198,7 +198,7 @@ delete_policy(A) ->
                              {delete_policy, A},
                              infinity)).
 
--spec create_saml_provider(maps:map()) -> {ok, {flat_arn(), [tag()]}} | {error, term()}.
+-spec create_saml_provider(map()) -> {ok, {flat_arn(), [tag()]}} | {error, term()}.
 create_saml_provider(A) ->
     ?MEASURE([saml_provider, create],
              gen_server:call(?MODULE,
@@ -215,7 +215,7 @@ delete_saml_provider(A) ->
 stop(Pid) ->
     gen_server:cast(Pid, stop).
 
--spec update_user(maps:map()) -> {ok, rcs_user()} | {error, term() | stanchion_utils:riak_connect_failed()}.
+-spec update_user(map()) -> {ok, rcs_user()} | {error, term() | stanchion_utils:riak_connect_failed()}.
 update_user(A) ->
     ?MEASURE([user, update],
              gen_server:call(?MODULE,

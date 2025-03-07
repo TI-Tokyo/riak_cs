@@ -1,6 +1,6 @@
 %% ---------------------------------------------------------------------
 %%
-%% Copyright (c) 2023 TI Tokyo    All Rights Reserved.
+%% Copyright (c) 2023-2025 TI Tokyo    All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -37,7 +37,7 @@
                                      | packed_policy_too_large
                                      | region_disabled.
 
--spec assume_role_with_saml(maps:map(), pid()) -> {ok, maps:map()} | {error, assume_role_with_saml_error()}.
+-spec assume_role_with_saml(map(), pid()) -> {ok, map()} | {error, assume_role_with_saml_error()}.
 assume_role_with_saml(Specs, Pbc) ->
     Res = lists:foldl(
             fun(StepF, State) -> StepF(State) end,

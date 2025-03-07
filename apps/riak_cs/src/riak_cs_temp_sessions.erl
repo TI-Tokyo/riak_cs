@@ -1,6 +1,6 @@
 %% ---------------------------------------------------------------------
 %%
-%% Copyright (c) 2023 TI Tokyo    All Rights Reserved.
+%% Copyright (c) 2023-2025 TI Tokyo    All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -85,7 +85,7 @@ create(?IAM_ROLE{role_id = RoleId,
 
 
 -spec list(riak_client(), #list_temp_sessions_request{}) ->
-          {ok, maps:map()} | {error, term()}.
+          {ok, map()} | {error, term()}.
 list(RcPid, #list_temp_sessions_request{max_items = MaxItems,
                                         marker = Marker}) ->
     Arg = #{max_items => MaxItems,

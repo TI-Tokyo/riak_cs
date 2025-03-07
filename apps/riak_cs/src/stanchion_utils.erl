@@ -1,7 +1,7 @@
 %% ---------------------------------------------------------------------
 %%
 %% Copyright (c) 2007-2013 Basho Technologies, Inc.  All Rights Reserved.
-%%               2021-2023 TI Tokyo    All Rights Reserved.
+%%               2021-2025 TI Tokyo    All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -96,7 +96,7 @@ get_pbc() ->
 
 %% @doc Create a bucket in the global namespace or return
 %% an error if it already exists.
--spec create_bucket(maps:map(), pid()) -> ok | {error, term()}.
+-spec create_bucket(map(), pid()) -> ok | {error, term()}.
 create_bucket(#{bucket := Bucket,
                 requester := OwnerId,
                 acl := Acl_} = FF, Pbc) ->
@@ -143,7 +143,7 @@ delete_bucket(Bucket, OwnerId, Pbc) ->
 
 
 %% @doc Attempt to create a new user
--spec create_user(maps:map(), pid()) -> ok | {error, term()}.
+-spec create_user(map(), pid()) -> ok | {error, term()}.
 create_user(FF = #{arn := Arn,
                    name := Name,
                    email := Email}, Pbc) ->
@@ -169,7 +169,7 @@ delete_user(Arn_, Pbc) ->
             ER
     end.
 
--spec update_user(maps:map(), pid()) -> {ok, rcs_user()} | {error, term()}.
+-spec update_user(map(), pid()) -> {ok, rcs_user()} | {error, term()}.
 update_user(FF, Pbc) ->
     User = ?IAM_USER{arn = Arn,
                      key_id = KeyId,
@@ -234,7 +234,7 @@ email_and_name_available(Email, Name, Pbc) ->
     end.
 
 
--spec create_role(maps:map(), pid()) -> {ok, role()} | {error, already_exists|term()}.
+-spec create_role(map(), pid()) -> {ok, role()} | {error, already_exists|term()}.
 create_role(Fields, Pbc) ->
     R = ?IAM_ROLE{role_name = Name} =
         riak_cs_iam:unarm(
@@ -247,7 +247,7 @@ create_role(Fields, Pbc) ->
             {error, role_already_exists}
     end.
 
--spec update_role(maps:map(), pid()) -> ok | {error, already_exists|term()}.
+-spec update_role(map(), pid()) -> ok | {error, already_exists|term()}.
 update_role(Fields, Pbc) ->
     Role =
         riak_cs_iam:unarm(
@@ -306,7 +306,7 @@ delete_role(Arn, Pbc) ->
     end.
 
 
--spec create_policy(maps:map(), pid()) -> {ok, iam_policy()} | {error, term()}.
+-spec create_policy(map(), pid()) -> {ok, iam_policy()} | {error, term()}.
 create_policy(Fields, Pbc) ->
     P = ?IAM_POLICY{policy_name = Name} =
         riak_cs_iam:unarm(
@@ -318,7 +318,7 @@ create_policy(Fields, Pbc) ->
             {error, policy_already_exists}
     end.
 
--spec update_policy(maps:map(), pid()) -> ok | {error, term()}.
+-spec update_policy(map(), pid()) -> ok | {error, term()}.
 update_policy(Fields, Pbc) ->
     Policy = riak_cs_iam:unarm(
                riak_cs_iam:exprec_iam_policy(Fields)),
@@ -376,7 +376,7 @@ delete_policy(Arn, Pbc) ->
     end.
 
 
--spec create_saml_provider(maps:map(), pid()) -> {ok, {flat_arn(), [tag()]}} | {error, term()}.
+-spec create_saml_provider(map(), pid()) -> {ok, {flat_arn(), [tag()]}} | {error, term()}.
 create_saml_provider(Fields, Pbc) ->
     P0 = ?IAM_SAML_PROVIDER{name = Name} =
         riak_cs_iam:unarm(
@@ -476,20 +476,20 @@ list_keys(BucketName, Pbc) ->
     end.
 
 %% @doc Set the ACL for a bucket
--spec set_bucket_acl(binary(), maps:map(), pid()) -> ok | {error, term()}.
+-spec set_bucket_acl(binary(), map(), pid()) -> ok | {error, term()}.
 set_bucket_acl(Bucket, #{requester := OwnerId,
                          acl := Acl}, Pbc) ->
     do_bucket_op(Bucket, OwnerId, [{acl, Acl}], update_acl, Pbc).
 
 %% @doc add bucket policy in the global namespace
 %% FieldList.policy has JSON-encoded policy from user
--spec set_bucket_policy(binary(), maps:map(), pid()) -> ok | {error, term()}.
+-spec set_bucket_policy(binary(), map(), pid()) -> ok | {error, term()}.
 set_bucket_policy(Bucket, #{requester := Requester,
                             policy := PolicyJson}, Pbc) ->
     do_bucket_op(Bucket, Requester, [{policy, base64:decode(PolicyJson)}], update_policy, Pbc).
 
 %% @doc set bucket versioning option
--spec set_bucket_versioning(binary(), maps:map(), pid()) -> ok | {error, term()}.
+-spec set_bucket_versioning(binary(), map(), pid()) -> ok | {error, term()}.
 set_bucket_versioning(Bucket, #{requester := Requester,
                                 versioning := Versioning}, Pbc) ->
     do_bucket_op(Bucket, Requester, [{versioning, riak_cs_bucket:exprec_bucket_versioning(

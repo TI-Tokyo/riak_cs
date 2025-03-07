@@ -1,6 +1,6 @@
 %% ---------------------------------------------------------------------
 %%
-%% Copyright (c) 2023 TI Tokyo    All Rights Reserved.
+%% Copyright (c) 2023-2025 TI Tokyo    All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -74,7 +74,7 @@
 
 %% ------------ users
 
--spec create_user(maps:map()) -> {ok, rcs_user()} | {error, already_exists | term()}.
+-spec create_user(map()) -> {ok, rcs_user()} | {error, already_exists | term()}.
 create_user(Specs = #{user_name := Name}) ->
     Email = iolist_to_binary([Name, $@, riak_cs_config:iam_create_user_default_email_host()]),
     riak_cs_user:create_user(Name, Email, Specs).
@@ -99,7 +99,7 @@ get_user(Arn, Pbc) ->
             ER
     end.
 
--spec find_user(maps:map(), pid()) -> {ok, {rcs_user(), riakc_obj:riakc_obj()}} | {error, notfound | term()}.
+-spec find_user(map(), pid()) -> {ok, {rcs_user(), riakc_obj:riakc_obj()}} | {error, notfound | term()}.
 find_user(#{name := A}, Pbc) ->
     find_user(?USER_NAME_INDEX, A, Pbc);
 find_user(#{canonical_id := A}, Pbc) ->
@@ -173,7 +173,7 @@ list_attached_user_policies(UserName, PathPrefix_, Pbc) ->
     end.
 
 -spec list_users(riak_client(), #list_users_request{}) ->
-          {ok, maps:map()} | {error, term()}.
+          {ok, map()} | {error, term()}.
 list_users(RcPid, #list_users_request{path_prefix = PathPrefix,
                                       max_items = MaxItems,
                                       marker = Marker}) ->
@@ -195,7 +195,7 @@ list_users(RcPid, #list_users_request{path_prefix = PathPrefix,
 
 %% ------------ policies
 
--spec create_policy(maps:map()) -> {ok, iam_policy()} | {error, reportable_error_reason()}.
+-spec create_policy(map()) -> {ok, iam_policy()} | {error, reportable_error_reason()}.
 create_policy(Specs = #{policy_document := D}) ->
     case riak_cs_aws_policy:policy_from_json(D) of  %% this is to validate PolicyDocument
         {ok, _} ->
@@ -230,7 +230,7 @@ get_policy(Arn, Pbc) ->
             ER
     end.
 
--spec find_policy(maps:map() | binary(), pid()) -> {ok, policy()} | {error, notfound | term()}.
+-spec find_policy(map() | binary(), pid()) -> {ok, policy()} | {error, notfound | term()}.
 find_policy(Name, Pbc) when is_binary(Name) ->
     find_policy(#{name => Name}, Pbc);
 find_policy(#{name := Name}, Pbc) ->
@@ -245,7 +245,7 @@ find_policy(#{name := Name}, Pbc) ->
     end.
 
 -spec list_policies(riak_client(), #list_policies_request{}) ->
-          {ok, maps:map()} | {error, term()}.
+          {ok, map()} | {error, term()}.
 list_policies(RcPid, #list_policies_request{path_prefix = PathPrefix,
                                             only_attached = OnlyAttached,
                                             policy_usage_filter = PolicyUsageFilter,
@@ -443,7 +443,7 @@ express_policies(AA, Pbc) ->
 
 %% CreateRole takes a string for PermissionsBoundary parameter, which
 %% needs to become part of a structure (and handled and exported thus), so:
--spec fix_permissions_boundary(maps:map()) -> maps:map().
+-spec fix_permissions_boundary(map()) -> map().
 fix_permissions_boundary(#{permissions_boundary := A} = Map) when A /= null,
                                                                   A /= undefined ->
     maps:update(permissions_boundary, #{permissions_boundary_arn => A}, Map);
@@ -453,7 +453,7 @@ fix_permissions_boundary(Map) ->
 
 %% ------------ roles
 
--spec create_role(maps:map()) -> {ok, role()} | {error, reportable_error_reason()}.
+-spec create_role(map()) -> {ok, role()} | {error, reportable_error_reason()}.
 create_role(Specs) ->
     case validate_role_specs(Specs) of
         ok ->
@@ -492,7 +492,7 @@ get_role(Arn, Pbc) ->
             Error
     end.
 
--spec find_role(maps:map() | binary(), pid()) -> {ok, role()} | {error, notfound | term()}.
+-spec find_role(map() | binary(), pid()) -> {ok, role()} | {error, notfound | term()}.
 find_role(Name, Pbc) when is_binary(Name) ->
     find_role(#{name => Name}, Pbc);
 find_role(#{name := A}, Pbc) ->
@@ -514,7 +514,7 @@ find_role(Index, A, Pbc) ->
     end.
 
 -spec list_roles(riak_client(), #list_roles_request{}) ->
-          {ok, maps:map()} | {error, term()}.
+          {ok, map()} | {error, term()}.
 list_roles(RcPid, #list_roles_request{path_prefix = PathPrefix,
                                       max_items = MaxItems,
                                       marker = Marker}) ->
@@ -565,7 +565,7 @@ list_attached_role_policies(RoleName, PathPrefix_, Pbc) ->
 
 %% ------------ SAML providers
 
--spec create_saml_provider(maps:map()) -> {ok, {Arn::binary(), [tag()]}} | {error, reportable_error_reason()}.
+-spec create_saml_provider(map()) -> {ok, {Arn::binary(), [tag()]}} | {error, reportable_error_reason()}.
 create_saml_provider(Specs) ->
     Encoded = riak_cs_json:to_json(exprec_saml_provider(Specs)),
     {ok, AdminCreds} = riak_cs_config:admin_creds(),
@@ -591,7 +591,7 @@ get_saml_provider(Arn, Pbc) ->
     end.
 
 -spec list_saml_providers(riak_client(), #list_saml_providers_request{}) ->
-          {ok, maps:map()} | {error, term()}.
+          {ok, map()} | {error, term()}.
 list_saml_providers(RcPid, #list_saml_providers_request{}) ->
     Arg = #{},
     {ok, MasterPbc} = riak_cs_riak_client:master_pbc(RcPid),
@@ -603,7 +603,7 @@ list_saml_providers(RcPid, #list_saml_providers_request{}) ->
             ER
     end.
 
--spec find_saml_provider(maps:map() | binary(), pid()) ->
+-spec find_saml_provider(map() | binary(), pid()) ->
           {ok, saml_provider()} | {error, notfound | term()}.
 find_saml_provider(Name, Pbc) when is_binary(Name) ->
     find_saml_provider(#{name => Name}, Pbc);
@@ -694,7 +694,7 @@ from_riakc_obj(Obj) ->
     end.
 
 
--spec exprec_user(maps:map()) -> ?IAM_USER{}.
+-spec exprec_user(map()) -> ?IAM_USER{}.
 exprec_user(Map) ->
     U0 = ?IAM_USER{status = S,
                    attached_policies = AP0,
@@ -723,7 +723,7 @@ maybe_int(undefined) -> undefined;
 maybe_int(A) -> A.
 
 
--spec exprec_bucket(maps:map()) -> ?RCS_BUCKET{}.
+-spec exprec_bucket(map()) -> ?RCS_BUCKET{}.
 exprec_bucket(Map) ->
     B0 = ?RCS_BUCKET{last_action = LA0,
                      acl = A0} = exprec:frommap_moss_bucket_v2(Map),
@@ -737,7 +737,7 @@ maybe_exprec_acl(undefined) -> undefined;
 maybe_exprec_acl(A) -> exprec:frommap_acl_v3(A).
 
 
--spec exprec_role(maps:map()) -> ?IAM_ROLE{}.
+-spec exprec_role(map()) -> ?IAM_ROLE{}.
 exprec_role(Map) ->
     Role0 = ?IAM_ROLE{permissions_boundary = PB0,
                       role_last_used = LU0,
@@ -771,13 +771,13 @@ exprec_role(Map) ->
                    attached_policies = AP,
                    tags = TT}.
 
--spec exprec_iam_policy(maps:map()) -> ?IAM_POLICY{}.
+-spec exprec_iam_policy(map()) -> ?IAM_POLICY{}.
 exprec_iam_policy(Map) ->
     Policy0 = ?IAM_POLICY{tags = TT0} = exprec:frommap_iam_policy(Map),
     TT = [exprec:frommap_tag(T) || is_list(TT0), T <- TT0],
     Policy0?IAM_POLICY{tags = TT}.
 
--spec exprec_saml_provider(maps:map()) -> ?IAM_SAML_PROVIDER{}.
+-spec exprec_saml_provider(map()) -> ?IAM_SAML_PROVIDER{}.
 exprec_saml_provider(Map) ->
     P0 = ?IAM_SAML_PROVIDER{tags = TT0} = exprec:frommap_saml_provider_v1(Map),
     TT = [exprec:frommap_tag(T) || is_list(TT0), T <- TT0],

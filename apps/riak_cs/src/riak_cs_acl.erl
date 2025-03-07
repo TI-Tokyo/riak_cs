@@ -1,7 +1,7 @@
 %% ---------------------------------------------------------------------
 %%
 %% Copyright (c) 2007-2013 Basho Technologies, Inc.  All Rights Reserved,
-%%               2021-2023 TI Tokyo    All Rights Reserved.
+%%               2021-2025 TI Tokyo    All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -301,7 +301,7 @@ object_access(_BucketObj, ObjAcl, RequestedAccess, CanonicalId, RcPid, _) ->
 owner_id(?ACL{owner = #{key_id := OwnerKeyId}}, _) ->
     OwnerKeyId.
 
--spec exprec_acl(maps:map()) -> ?ACL{}.
+-spec exprec_acl(map()) -> ?ACL{}.
 exprec_acl(Map) ->
     Acl0 = ?ACL{grants = GG0} = exprec:frommap_acl_v3(Map),
     GG = [exprec_grant(G) || G <- GG0],
