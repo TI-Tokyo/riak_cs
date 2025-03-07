@@ -108,6 +108,7 @@
 -define(DEFAULT_PUT_BUFFER_FACTOR, 1).
 %% Similar to above, but for fetching
 %% This is also max ram per fetch request
+-define(DEFAULT_PUT_FSM_AUGMENT_DATA_CACHE_SIZE, 104857600).
 -define(DEFAULT_FETCH_BUFFER_FACTOR, 32).
 -define(N_VAL_1_GET_REQUESTS, true).
 -define(DEFAULT_PING_TIMEOUT, 5000).

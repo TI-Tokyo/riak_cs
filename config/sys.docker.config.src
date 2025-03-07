@@ -15,6 +15,7 @@
       {access_log_flush_size, ${ACCESS_LOG_FLUSH_SIZE}},
       {access_log_flush_factor, ${ACCESS_LOG_FLUSH_FACTOR}},
       {fast_user_get, ${FAST_USER_GET}},
+      {put_fsm_augment_data_cache_size, ${PUT_FSM_AUGMENT_DATA_CACHE_SIZE}}
       {active_delete_threshold, ${ACTIVE_DELETE_THRESHOLD}},
       {gc_batch_size, ${GC_BATCH_SIZE}},
       {gc_max_workers, ${GC_MAX_WORKERS}},

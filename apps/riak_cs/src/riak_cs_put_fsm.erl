@@ -1,7 +1,7 @@
 %% ---------------------------------------------------------------------
 %%
 %% Copyright (c) 2007-2013 Basho Technologies, Inc.  All Rights Reserved,
-%%               2021, 2022 TI Tokyo    All Rights Reserved.
+%%               2021-2025 TI Tokyo    All Rights Reserved.
 %%
 %% This file is provided to you under the Apache License,
 %% Version 2.0 (the "License"); you may not use this file
@@ -236,10 +236,23 @@ not_full({block_written, BlockID, WriterPid}, State) ->
     NewState = state_from_block_written(BlockID, WriterPid, State),
     {next_state, not_full, NewState}.
 
-full({block_written, BlockID, WriterPid}, State = #state{reply_pid = Waiter}) ->
+full({block_written, BlockID, WriterPid}, State = #state{current_buffer_size = CBS,
+                                                         reply_pid = Waiter}) ->
     NewState = state_from_block_written(BlockID, WriterPid, State),
-    gen_fsm:reply(Waiter, ok),
-    {next_state, not_full, NewState#state{reply_pid=undefined}}.
+    %% because augment_data can add many subchunks in one go and we
+    %% have only disposed of just one, we need more blocks written before
+    %% we reply to augment_data caller, so:
+    {NextState, ReplyPid} =
+        case CBS > riak_cs_config:get_env(
+                     riak_cs, put_fsm_augment_data_cache_size,
+                     ?DEFAULT_PUT_FSM_AUGMENT_DATA_CACHE_SIZE) of
+            true ->
+                {full, Waiter};
+            false ->
+                gen_fsm:reply(Waiter, ok),
+                {not_full, undefined}
+        end,
+    {next_state, NextState, NewState#state{reply_pid = ReplyPid}}.
 
 all_received({augment_data, <<>>}, State) ->
     {next_state, all_received, State};
