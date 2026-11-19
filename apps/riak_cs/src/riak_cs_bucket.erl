@@ -62,7 +62,7 @@
 
 %% @doc Create a bucket in the global namespace or return
 %% an error if it already exists.
--spec create_bucket(rcs_user(), riakc_object:riakc_object() | undefined, binary(), bag_id(), acl()) ->
+-spec create_bucket(rcs_user(), riakc_obj:riakc_obj() | undefined, binary(), bag_id(), acl()) ->
           ok | {error, term()}.
 create_bucket(_User, undefined, _Bucket, _BagId, _ACL) ->
     {error, no_bucket_create_for_federated_users};

@@ -55,13 +55,13 @@
 create_user(Name, Email) ->
     create_user(Name, Email, #{}).
 
--spec create_user(binary(), binary(), maps:map()) -> {ok, rcs_user()} | {error, term()}.
+-spec create_user(binary(), binary(), map()) -> {ok, rcs_user()} | {error, term()}.
 create_user(Name, Email, IAMExtra) ->
     {KeyId, Secret} = riak_cs_aws_utils:generate_access_creds(Email),
     create_user(Name, Email, KeyId, Secret, IAMExtra).
 
 %% @doc Create a new Riak CS/IAM user
--spec create_user(binary(), binary(), binary(), binary(), maps:map()) ->
+-spec create_user(binary(), binary(), binary(), binary(), map()) ->
           {ok, rcs_user()} | {error, term()}.
 create_user(Name, Email, KeyId, Secret, IAMExtra) ->
     Precious = stanchion_lock:acquire(KeyId),

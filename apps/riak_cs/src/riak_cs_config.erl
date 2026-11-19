@@ -370,12 +370,12 @@ stanchion_subnet_and_netmask() ->
     {ok, Netmask} = application:get_env(riak_cs, stanchion_netmask),
     {Subnet, Netmask}.
 
--spec set_stanchion(string(), inet:port()) -> ok.
+-spec set_stanchion(string(), inet:port_number()) -> ok.
 set_stanchion(Host, Port) ->
     application:set_env(riak_cs, stanchion_host, {Host, Port}),
     ok.
 
--spec set_stanchion(string(), inet:port(), boolean()) -> ok.
+-spec set_stanchion(string(), inet:port_number(), boolean()) -> ok.
 set_stanchion(Host, Port, Ssl) ->
     application:set_env(riak_cs, stanchion_host, {Host, Port}),
     application:set_env(riak_cs, stanchion_ssl, Ssl),

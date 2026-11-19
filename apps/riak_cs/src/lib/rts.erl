@@ -70,7 +70,7 @@
 %% @doc Just create the new sample object (don't store it).
 -spec new_sample(binary(), binary(),
                  datetime(), datetime(),
-                 integer(), riakc_obj:riakc_object())
+                 integer(), riakc_obj:riakc_obj())
          -> riakc_obj:riakc_obj().
 new_sample(Bucket, KeyPostfix, Start, End, Period, Data) ->
     Slice = slice_containing(Start, Period),

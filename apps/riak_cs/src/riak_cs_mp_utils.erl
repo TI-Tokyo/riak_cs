@@ -140,7 +140,7 @@ initiate_multipart_upload(Bucket, Key, Vsn, ContentType, Owner,
 
 
 -spec list_multipart_uploads(binary(), acl_owner(), proplists:proplist(), nopid | pid()) ->
-          {ok, {[multipart_descr()], [ordsets:ordset()]}} | {error, term()}.
+          {ok, {[multipart_descr()], [ordsets:ordset(binary())]}} | {error, term()}.
 list_multipart_uploads(Bucket, #{key_id := CallerKeyId} = Caller,
                        Opts, RcPidUnW) ->
     case wrap_riak_client(RcPidUnW) of

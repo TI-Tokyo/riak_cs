@@ -101,7 +101,7 @@ create_bucket(BucketData) ->
 
 %% @doc Attempt to create a bucket
 -spec create_user([{term(), term()}]) ->
-          ok | {error, term() | stanchion_utils:riak_connect_failed()}.
+          ok | {error, term()}.
 create_user(UserData) ->
     ?MEASURE([user, create],
              gen_server:call(?MODULE,
@@ -109,7 +109,7 @@ create_user(UserData) ->
                              infinity)).
 
 -spec delete_user([{term(), term()}]) ->
-          ok | {error, term() | stanchion_utils:riak_connect_failed()}.
+          ok | {error, term()}.
 delete_user(A) ->
     ?MEASURE([user, delete],
              gen_server:call(?MODULE,
@@ -215,7 +215,7 @@ delete_saml_provider(A) ->
 stop(Pid) ->
     gen_server:cast(Pid, stop).
 
--spec update_user(map()) -> {ok, rcs_user()} | {error, term() | stanchion_utils:riak_connect_failed()}.
+-spec update_user(map()) -> {ok, rcs_user()} | {error, term()}.
 update_user(A) ->
     ?MEASURE([user, update],
              gen_server:call(?MODULE,
