@@ -37,7 +37,6 @@
     jsx,
     jason,
     getopt,
-    esaml,
     mochiweb,
     webmachine,
     poolboy,

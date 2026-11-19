@@ -26,7 +26,7 @@
 -include("riak_cs.hrl").
 -include("aws_api.hrl").
 -include_lib("xmerl/include/xmerl.hrl").
--include_lib("esaml/include/esaml.hrl").
+-include("lib/esaml/esaml.hrl").
 -include_lib("kernel/include/logger.hrl").
 
 
