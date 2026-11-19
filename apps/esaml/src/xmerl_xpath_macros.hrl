@@ -61,3 +61,13 @@
             _ -> Resp
         end
     end).
+
+-define(xpath_recurse_nofail(XPath, Record, Field, F),
+    fun(Resp) ->
+        case xmerl_xpath:string(XPath, Xml, [{namespace, Ns}]) of
+            [E = #xmlElement{}] ->
+                {ok, V} = F(E),
+                Resp#Record{Field = V};
+            _ -> Resp
+        end
+    end).

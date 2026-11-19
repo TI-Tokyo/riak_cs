@@ -246,7 +246,7 @@ decode_assertion(Xml) ->
         ?xpath_text("/saml:Assertion/saml:Issuer/text()", esaml_assertion, issuer),
         ?xpath_recurse("/saml:Assertion/saml:Subject", esaml_assertion, subject, decode_assertion_subject),
         ?xpath_recurse("/saml:Assertion/saml:Conditions", esaml_assertion, conditions, decode_assertion_conditions),
-        ?xpath_recurse("/saml:Assertion/saml:AttributeStatement", esaml_assertion, attributes, decode_assertion_attributes),
+        ?xpath_recurse_nofail("/saml:Assertion/saml:AttributeStatement", esaml_assertion, attributes, decode_assertion_attributes),
         ?xpath_recurse("/saml:Assertion/saml:AuthnStatement", esaml_assertion, authn, decode_assertion_authn)
     ], #esaml_assertion{}).
 
@@ -284,7 +284,7 @@ decode_assertion_conditions(Xml) ->
         end
     ], []).
 
--spec decode_assertion_attributes(#xmlElement{}) -> {ok, [{atom(), string()}]} | {error, term()}.
+-spec decode_assertion_attributes(#xmlElement{}) -> {ok, [{atom(), string()}]}.
 decode_assertion_attributes(Xml) ->
     Ns = [{"saml", 'urn:oasis:names:tc:SAML:2.0:assertion'}],
     Attrs = xmerl_xpath:string("/saml:AttributeStatement/saml:Attribute", Xml, [{namespace, Ns}]),

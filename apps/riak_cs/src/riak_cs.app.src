@@ -42,6 +42,7 @@
     poolboy,
     cluster_info,
     exometer_core,
+    esaml,
     riakc,
     riak_repl_pb_api,
     riak_cs_multibag
