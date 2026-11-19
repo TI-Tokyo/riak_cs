@@ -1,3 +1,12 @@
+# Riak CS 3.2.7 Release Notes
+
+Released December xx, 2026.
+
+## Changes
+
+* Uplift to otp-28 & dependencies to latest version.
+
+
 # Riak CS 3.2.6 Release Notes
 
 Released March 11, 2025.

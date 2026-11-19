@@ -6,7 +6,7 @@
 
 %% gen_server callbacks
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2,
-         terminate/2, code_change/3, format_status/2]).
+         terminate/2, code_change/3]).
 
 -include_lib("riak_cs/include/riak_cs.hrl").
 -include_lib("riak_pb/include/riak_pb_kv_codec.hrl").
@@ -143,14 +143,6 @@ terminate(_Reason, _State) ->
 
 code_change(_OldVsn, State, _Extra) ->
     {ok, State}.
-
-format_status(_Opt, [_PDict, Status]) ->
-    format_status(Status).
-
-format_status(Status) ->
-    Fields = record_info(fields, state),
-    [_Name | Values] = tuple_to_list(Status),
-    lists:zip(Fields, Values).
 
 %%% Internal functions
 

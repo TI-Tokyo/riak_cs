@@ -1,7 +1,7 @@
 # To override the default Erlang version used in the build, use:
-# $ docker build --build-arg erlang_version=22 ...
+# $ docker build --build-arg erlang_version=26 ...
 
-ARG erlang_version="25"
+ARG erlang_version="26"
 FROM erlang:${erlang_version} AS compile-image
 
 EXPOSE 8080 8085
